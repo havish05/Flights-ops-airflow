@@ -11,6 +11,7 @@ if str(AIRFLOW_HOME) not in sys.path:
 
 from scripts.bronze_ingest import run_bronze_ingestion
 from scripts.silver_transform import run_silver_transform
+from scripts.gold_aggregate import run_gold_aggregate
 
 default_args = {
     'owner': 'airflow',
@@ -37,5 +38,10 @@ with DAG(
               python_callable= run_silver_transform,
         )
 
+        gold = PythonOperator(
+              task_id = "gold_aggregate",
+              python_callable = run_gold_aggregate
+        )
 
-        bronze >> silver
+
+        bronze >> silver >> gold

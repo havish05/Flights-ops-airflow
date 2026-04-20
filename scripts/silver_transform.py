@@ -25,7 +25,7 @@ def run_silver_transform(**context):
             "icao24",
             "origin_country",
             "velocity",
-            "geo_altitude",
+            "on_ground",
         ]
     ]
 
