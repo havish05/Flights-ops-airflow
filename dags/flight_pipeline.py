@@ -10,6 +10,7 @@ if str(AIRFLOW_HOME) not in sys.path:
     sys.path.insert(0, str(AIRFLOW_HOME))
 
 from scripts.bronze_ingest import run_bronze_ingestion
+from scripts.silver_transform import run_silver_transform
 
 default_args = {
     'owner': 'airflow',
@@ -30,3 +31,11 @@ with DAG(
             task_id= "bronze_ingestion",
             python_callable= run_bronze_ingestion
         )
+
+        silver = PythonOperator(
+              task_id= "silver_transform",
+              python_callable= run_silver_transform,
+        )
+
+
+        bronze >> silver
